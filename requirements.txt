@@ -1,0 +1,13 @@
+fastapi
+pydantic
+motor
+uvicorn
+python-dateutil  
+timedelta         
+PyJWT
+openai
+bcrypt
+pydantic[email]
+torch
+numpy
+symspellpy==6.7.6

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit Feedback</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 500px;
+  margin: 50px auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+label {
+  margin: 10px 0 5px;
+  display: block;
+  font-weight: bold;
+}
+
+input, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#responseMessage {
+  text-align: center;
+  font-size: 1rem;
+  color: green;
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Submit Feedback</h1>
+    <form id="feedbackForm">
+      <label for="from">Your Email:</label>
+      <input type="email" id="from" placeholder="Enter your email" required />
+
+      <label for="to">Receiver's Email:</label>
+      <input type="email" id="to" placeholder="Enter receiver's email" required />
+
+      <label for="feedback">Feedback:</label>
+      <textarea id="feedback" placeholder="Write your feedback" required></textarea>
+
+      <button type="submit">Submit</button>
+    </form>
+    <p id="responseMessage"></p>
+  </div>
+  <script>
+    document.getElementById("feedbackForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const sender = document.getElementById("from").value;
+  const receiver = document.getElementById("to").value;
+  const feedback = document.getElementById("feedback").value;
+  const responseMessage = document.getElementById("responseMessage");
+
+  try {
+    const response = await fetch("https://cpr-csr-managements.onrender.com/submit-feedback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: sender,
+        to: receiver,
+        feedback: feedback,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      responseMessage.style.color = "green";
+      responseMessage.textContent = data.message;
+      document.getElementById("feedbackForm").reset();
+    } else {
+      responseMessage.style.color = "red";
+      responseMessage.textContent = data.error || "Failed to submit feedback.";
+    }
+  } catch (error) {
+    responseMessage.style.color = "red";
+    responseMessage.textContent = "An error occurred. Please try again.";
+  }
+});
+
+  </script>
+</body>
+</html>
+

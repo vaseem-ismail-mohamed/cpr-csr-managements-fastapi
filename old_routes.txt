@@ -1,0 +1,157 @@
+from Controllers.auth_controller import register, login, change_password, delete_user
+from Controllers.calender_controller import get_events, fetch_students_by_month, update_monthly_status,get_students
+from Controllers.feedback_controller import submit_feedback, get_feedback, get_students, get_feedback_by_email
+from Controllers.lead_status_controller import fetch__students, update_student_status
+from Controllers.meet_admin_controller import  get_booked_slots, delete_slot
+from Controllers.meet_student_controller import get_slots, get_calendar, book_slot
+from Controllers.personal_controller import get_admin_notes, all_admin_notes, get_lead_notes, all_lead_notes
+from Controllers.score_controller import add_scores, get_section_scores, get_scores_by_month, get_student_scores
+from Controllers.slot_lead_student_controller import slot_details, get_student_slots, book__slot, delete__slot
+from Controllers.track_goals_admin_controller import add_multiple_goals
+from Controllers.track_goals_student_controller import get_student_goals 
+
+@app.post('/register')   #checked register.html
+async def Reg():
+    return await register()
+    
+@app.route('/login', methods=['POST']) # checked login.html
+async def Log():
+    return await login()
+
+@app.route('/change-password', methods=['POST']) #checked change.html
+async def change():
+    return await change_password()
+    
+@app.route('/delete_user', methods=['DELETE']) #checked delete-user.html
+async def Del():
+    return await delete_user()
+    
+# @app.route("/get-events-<section>", methods=["GET"])
+# async def Get_Events(section):
+#     return await get_events(, section)
+    
+
+@app.route('/students/fetchbymonth', methods=['GET'])
+async def fetch_students(month):
+    return await fetch_students_by_month(month)
+
+@app.route('/students/<month>/update', methods=['POST'])
+async def update_month_status(month):
+    return await update_monthly_status(month)
+    
+
+@app.route('/get-students/<section>', methods=['GET'])
+async def Get_Students_By_Section(section):
+    return await get_students( section)
+    
+@app.route('/submit-feedback', methods=['POST'])
+async def Submit_FB():
+    return await submit_feedback()
+    
+@app.route('/get-feedback/<sender_email>', methods=['GET'])
+async def Get_Feedback(sender_email):
+    return await get_feedback(, sender_email)
+    
+# @app.route('/get-feedbacks', methods=['POST'])
+# async def Get_Feedbacks():
+#     return await get_feedbacks()
+    
+@app.route('/get-students/<section>', methods=['GET'])
+async def Get_Students(section: str):
+    return await get_students(, section)
+    
+@app.route('/get-feedback/<email>', methods=['GET'])
+async def Get_Feedback_by_Email(email: str):
+    return await get_feedback_by_email(, email)
+    
+@app.route('/api/students', methods=['GET'])
+async def Fetch__Students():
+    return await fetch__students()
+
+@app.route('/api/update_status', methods=['POST'])
+async def Update_Students_Status():
+    return await update_student_status()
+
+@app.route("/book_slot", methods=["POST"])
+async def Book_Slot():
+    return await book_slot()
+
+
+@app.route("/booked_slots/<section>/<date>", methods=["GET"])
+async def Get_Booked_Slots(section, date):
+    return await get_booked_slots(, section, date)
+    
+@app.route("/delete_slot", methods=["POST"])
+async def Delete_Slot():
+    return await delete_slot()
+    
+@app.route("/slots/<section>/<date>", methods=["GET"])
+async def Get_Slots(section: str, date):
+    return await get_slots(, section, date)
+    
+@app.route("/calendar/<section>", methods=["GET"])
+async def Get_Calender(section: str):
+    return await get_calendar(, section)
+    
+@app.route("/get-notes-admin-<name>",methods = ["POST"])
+async def Get_Admin_Notes(name: str):
+    return await get_admin_notes(, name)
+    
+@app.route("/get-all-notes-admin/<name>",methods = ["GET"])
+async def All_Admin_Notes(name: str):
+    return await all_admin_notes(, name)
+    
+@app.route("/get-notes-lead-<name>",methods = ["POST"])
+async def Get_Lead_Notes(name: str):
+    return await get_lead_notes(, name)
+    
+@app.route("/get-all-notes-lead/<name>",methods = ["GET"])
+async def All_Lead_Notes(name: str):
+    return await all_lead_notes(, name)
+    
+@app.route('/add_scores', methods=['POST'])
+async def Add_Scores():
+    return await add_scores()
+
+@app.route('/get_section_scores', methods=['GET'])
+async def Get_Section_Scores():
+    return await get_section_scores()
+
+@app.route('/get_student_scores', methods=['GET'])
+async def Get_student_Scores():
+    return await get_student_scores()
+
+@app.route('/get_scores_by_month', methods=['GET'])
+async def Get_Scores_By_Month():
+    return await get_scores_by_month()
+
+@app.route("/get-events-<section>", methods=["GET"])
+async def Get_Events(section: str):
+    return await get_events(, section)
+
+@app.route("/delete-slot/<section>/<slot>", methods=["DELETE"])
+async def Delete__Slot(section: str, slot):
+    return await delete__slot(, section, slot)
+
+@app.route('/book-slot-<section>/<date>', methods=['POST'])
+async def Book__Slot(section: str, date):
+    return await book__slot(, section, date)
+
+@app.route("/slot-details/<section>/<date>", methods=["GET"])
+async def Slot_Details(section: str, date):
+    return await slot_details(, section, date)
+
+@app.route('/student-slots/<student_name>', methods=['GET'])
+async def Get_Student_Slots(student_name: str):
+    return await get_student_slots(, student_name)
+
+@app.route('/add-goals', methods=['POST'])
+async def Add_Multiple_Goals():
+    return await add_multiple_goals()
+
+@app.route('/student-goals', methods=['GET'])
+async def Get_Student_Goals():
+    return await get_student_goals()
+
+if __name__ == "__main__":
+    app.run(debug=True)
